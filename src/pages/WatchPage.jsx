@@ -140,7 +140,7 @@ export default function WatchPage() {
       {/* Metadata + actions */}
       <div className="video-meta">
         <div className="meta-left">
-          <span className="meta-badge site-badge">{cv.site}</span>
+          <span className="meta-badge site-badge" style={{cursor:'pointer'}} onClick={() => navigate(`/browse?site=${encodeURIComponent(cv.site)}`)} title="Browse this site">{cv.site}</span>
           <span className="meta-item">ID: {cv.id}</span>
           <span className="meta-item">Duration: {fmtDuration(duration) || '—'}</span>
         </div>
@@ -151,6 +151,11 @@ export default function WatchPage() {
           <a className="meta-btn" href={rawUrl} download target="_blank" rel="noopener noreferrer" title="Download video">
             <span className="meta-btn-icon">⬇</span> Download
           </a>
+          {cv.post_url && (
+            <a className="meta-btn" href={cv.post_url} target="_blank" rel="noopener noreferrer" title="Watch full video on original site">
+              <span className="meta-btn-icon">📺</span> Full Video
+            </a>
+          )}
           <button className="meta-btn" onClick={() => copyText(rawUrl)} title="Copy video URL">
             <span className="meta-btn-icon">🔗</span> Copy URL
           </button>

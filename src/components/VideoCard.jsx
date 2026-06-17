@@ -15,6 +15,11 @@ export default function VideoCard({ video, index, queueIndex }) {
     navigate('/watch', { state: { video } });
   };
 
+  const handleSiteClick = (e) => {
+    e.stopPropagation();
+    navigate(`/browse?site=${encodeURIComponent(video.site)}`);
+  };
+
   return (
     <div
       className={`video-card${isUpNext ? ' up-next' : ''}`}
@@ -35,13 +40,13 @@ export default function VideoCard({ video, index, queueIndex }) {
         <div className="thumb-overlay">
           <span className="play-icon">▶</span>
         </div>
-        <span className="duration-badge">{video.site}</span>
+        <span className="duration-badge" style={{cursor:'pointer'}} onClick={handleSiteClick} title="Browse this site">{video.site}</span>
         {isUpNext && <span className="up-next-badge">Up next</span>}
         {recent && <span className="new-badge">New</span>}
       </div>
       <div className="card-body">
         <p className="card-title">{video.title}</p>
-        <span className="card-site">{video.site}</span>
+        <span className="card-site" style={{cursor:'pointer'}} onClick={handleSiteClick} title="Browse this site">{video.site}</span>
       </div>
     </div>
   );
