@@ -61,11 +61,11 @@ export default function Header() {
           />
           <button type="submit">Search</button>
         </form>
-        <button className="hamburger" onClick={() => setMenuOpen(o => !o)} aria-label="Menu">
+        <div className="hamburger" onClick={() => setMenuOpen(o => !o)} role="button" tabIndex={0} aria-label="Menu" onKeyDown={e => e.key === 'Enter' && setMenuOpen(o => !o)}>
           <span className={`hamburger-bar${menuOpen ? ' open' : ''}`} />
           <span className={`hamburger-bar${menuOpen ? ' open' : ''}`} />
           <span className={`hamburger-bar${menuOpen ? ' open' : ''}`} />
-        </button>
+        </div>
       </div>
       {menuOpen && <div className="nav-overlay" onClick={() => setMenuOpen(false)} />}
     </header>
