@@ -8,6 +8,9 @@ import useAutoplay from '../hooks/useAutoplay';
 import useProxy from '../hooks/useProxy';
 import { shuffle } from '../api/client';
 
+const STUDIO_BASE = 'http://192.168.1.109:7860/studio/';
+const isStudio = typeof window !== 'undefined' && window.location.hostname.startsWith('studio');
+
 /* Fallback copy for iOS (Clipboard API not available without secure context) */
 function copyText(text) {
   if (navigator.clipboard?.writeText) {
@@ -93,6 +96,7 @@ export default function WatchPage() {
 
   const cv = currentVideo || video;
   const rawUrl = cv?.video_url || video.video_url;
+  const studioUrl = isStudio ? `${STUDIO_BASE}?url=${encodeURIComponent(rawUrl)}` : '';
   const hasPrev = queueIndex > 0;
   const hasNext = queueIndex < related.length - 1;
 
@@ -142,6 +146,11 @@ export default function WatchPage() {
           <span className="meta-item">Duration: {fmtDuration(duration) || '—'}</span>
         </div>
         <div className="meta-actions">
+          {isStudio && (
+            <a className="meta-btn" href={studioUrl} target="_blank" rel="noopener noreferrer" title="Open in external editor">
+              <span className="meta-btn-icon">🎬</span> Studio
+            </a>
+          )}
           <a className="meta-btn" href={rawUrl} download target="_blank" rel="noopener noreferrer" title="Download video">
             <span className="meta-btn-icon">⬇</span> Download
           </a>
