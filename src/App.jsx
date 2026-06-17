@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage';
 import BrowsePage from './pages/BrowsePage';
 import WatchPage from './pages/WatchPage';
 import SitesPage from './pages/SitesPage';
+import ShufflePage from './pages/ShufflePage';
 import HealthPage from './pages/HealthPage';
 import NotFoundPage from './pages/NotFoundPage';
 import './styles/app.css';
@@ -17,6 +18,7 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/browse" element={<BrowsePage />} />
           <Route path="/watch" element={<WatchPage />} />
+          <Route path="/shuffle" element={<ShufflePage />} />
           <Route path="/sites" element={<SitesPage />} />
           <Route path="/health" element={<HealthPage />} />
           <Route path="*" element={<NotFoundPage />} />

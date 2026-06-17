@@ -8,8 +8,11 @@ export default defineConfig({
       name: 'cors-proxy',
       configureServer(server) {
         server.middlewares.use(async (req, res, next) => {
-          if (!req.url?.startsWith('/proxy-video/')) return next();
-          const target = decodeURIComponent(req.url.slice('/proxy-video/'.length));
+          if (!req.url?.startsWith('/api/fetch-video')) return next();
+          const qi = req.url.indexOf('?');
+          if (qi === -1) return next();
+          const target = new URLSearchParams(req.url.slice(qi + 1)).get('url') || '';
+          if (!target) return next();
           try {
             const headers = { 'User-Agent': 'Mozilla/5.0' };
             if (req.headers.range) headers['Range'] = req.headers.range;

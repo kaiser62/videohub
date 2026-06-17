@@ -10,6 +10,25 @@ import { shuffle } from '../api/client';
 
 const STUDIO_BASE = 'http://192.168.1.109:7860/studio/';
 
+/* Fallback copy for iOS (Clipboard API not available without secure context) */
+function copyText(text) {
+  if (navigator.clipboard?.writeText) {
+    navigator.clipboard.writeText(text).catch(() => fallbackCopy(text));
+  } else {
+    fallbackCopy(text);
+  }
+}
+function fallbackCopy(text) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); } catch {}
+  document.body.removeChild(ta);
+}
+
 export default function WatchPage() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -64,12 +83,21 @@ export default function WatchPage() {
     }
   }, [related, queueIndex, video.site, currentVideo]);
 
+  const playPrev = useCallback(() => {
+    if (queueIndex <= 0 || related.length === 0) return;
+    const prevIndex = queueIndex - 1;
+    setQueueIndex(prevIndex);
+    setCurrentVideo(related[prevIndex]);
+  }, [queueIndex, related]);
+
   const handleEnded = () => { if (autoplay) playNext(); };
   const handleError = () => { if (autoplay) playNext(); };
 
   const cv = currentVideo || video;
   const rawUrl = cv?.video_url || video.video_url;
   const studioUrl = `${STUDIO_BASE}?url=${encodeURIComponent(rawUrl)}`;
+  const hasPrev = queueIndex > 0;
+  const hasNext = queueIndex < related.length - 1;
 
   return (
     <div className="page watch-page">
@@ -83,6 +111,22 @@ export default function WatchPage() {
         onDurationChange={setDuration}
         ref={playerRef}
       />
+
+      {/* Nav bar below player */}
+      <div className="video-nav">
+        <button className="nav-btn" onClick={() => navigate('/browse')} title="Back to browse">
+          <span className="nav-icon">←</span> Back
+        </button>
+        <div className="nav-queue">
+          <button className="nav-btn" onClick={playPrev} disabled={!hasPrev} title="Previous video">
+            <span className="nav-icon">‹</span> Prev
+          </button>
+          <span className="nav-pos">{queueIndex + 1} / {related.length}</span>
+          <button className="nav-btn" onClick={playNext} disabled={!hasNext} title="Next video">
+            Next <span className="nav-icon">›</span>
+          </button>
+        </div>
+      </div>
 
       {/* Title + toggles */}
       <div className="video-info">
@@ -101,14 +145,13 @@ export default function WatchPage() {
           <span className="meta-item">Duration: {fmtDuration(duration) || '—'}</span>
         </div>
         <div className="meta-actions">
-          <button className="meta-btn studio-btn" title="Open in external editor"
-            onClick={() => window.open(studioUrl, '_blank')}>
+          <a className="meta-btn" href={studioUrl} target="_blank" rel="noopener noreferrer" title="Open in external editor">
             <span className="meta-btn-icon">🎬</span> Studio
-          </button>
-          <a className="meta-btn" href={rawUrl} download target="_blank" rel="noopener" title="Download video">
+          </a>
+          <a className="meta-btn" href={rawUrl} download target="_blank" rel="noopener noreferrer" title="Download video">
             <span className="meta-btn-icon">⬇</span> Download
           </a>
-          <button className="meta-btn" onClick={() => { navigator.clipboard?.writeText(rawUrl); }} title="Copy video URL">
+          <button className="meta-btn" onClick={() => copyText(rawUrl)} title="Copy video URL">
             <span className="meta-btn-icon">🔗</span> Copy URL
           </button>
         </div>
