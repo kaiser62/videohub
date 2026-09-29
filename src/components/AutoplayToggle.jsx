@@ -1,10 +1,26 @@
-export default function AutoplayToggle({ enabled, onToggle }) {
+export default function AutoplayToggle({ enabled, onToggle, compact = false }) {
   return (
-    <label className="autoplay-toggle">
-      <span>Autoplay</span>
-      <div className={`toggle-switch${enabled ? ' on' : ''}`} onClick={onToggle}>
-        <div className="toggle-knob" />
+    <div
+      className={`toggle-container autoplay-toggle-wrap ${enabled ? 'active' : ''} ${compact ? 'compact' : ''}`}
+      onClick={onToggle}
+      role="switch"
+      aria-checked={enabled}
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === ' ' || e.key === 'Enter') {
+          e.preventDefault();
+          onToggle();
+        }
+      }}
+      title="Automatically play the next recommended video when finished"
+    >
+      <div className="toggle-labels">
+        <span className="toggle-title">Autoplay</span>
+        {!compact && <span className="toggle-hint">Next video</span>}
       </div>
-    </label>
+      <div className={`switch-pill ${enabled ? 'on' : 'off'}`}>
+        <div className="switch-knob" />
+      </div>
+    </div>
   );
 }

@@ -1,3 +1,5 @@
+import { IconChevronLeft, IconChevronRight } from './Icons';
+
 export default function Pagination({ page, totalPages, onPageChange }) {
   if (totalPages <= 1) return null;
 
@@ -17,32 +19,49 @@ export default function Pagination({ page, totalPages, onPageChange }) {
   }
 
   return (
-    <div className="pagination">
-      <button
-        disabled={page <= 1}
-        onClick={() => onPageChange(page - 1)}
-      >
-        « Prev
-      </button>
-      {pages.map((p, i) =>
-        p === '...' ? (
-          <span key={`ellipsis-${i}`} className="page-ellipsis">…</span>
-        ) : (
-          <button
-            key={p}
-            className={p === page ? 'page-active' : ''}
-            onClick={() => onPageChange(p)}
-          >
-            {p}
-          </button>
-        )
-      )}
-      <button
-        disabled={page >= totalPages}
-        onClick={() => onPageChange(page + 1)}
-      >
-        Next »
-      </button>
-    </div>
+    <nav className="pagination-wrap" aria-label="Pagination Navigation">
+      <div className="pagination">
+        <button
+          className="page-btn page-arrow"
+          disabled={page <= 1}
+          onClick={() => onPageChange(page - 1)}
+          aria-label="Previous page"
+        >
+          <IconChevronLeft size={16} />
+          <span>Prev</span>
+        </button>
+
+        <div className="page-numbers">
+          {pages.map((p, i) =>
+            p === '...' ? (
+              <span key={`ellipsis-${i}`} className="page-ellipsis">…</span>
+            ) : (
+              <button
+                key={p}
+                className={`page-btn page-num tnum ${p === page ? 'page-active' : ''}`}
+                onClick={() => onPageChange(p)}
+                aria-current={p === page ? 'page' : undefined}
+              >
+                {p}
+              </button>
+            )
+          )}
+        </div>
+
+        <button
+          className="page-btn page-arrow"
+          disabled={page >= totalPages}
+          onClick={() => onPageChange(page + 1)}
+          aria-label="Next page"
+        >
+          <span>Next</span>
+          <IconChevronRight size={16} />
+        </button>
+      </div>
+
+      <div className="page-status tnum">
+        Page {page} of {totalPages}
+      </div>
+    </nav>
   );
 }

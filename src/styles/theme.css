@@ -1,17 +1,107 @@
 :root {
-  --bg-primary: #000000;
-  --bg-secondary: #0a0a0a;
-  --bg-tertiary: #1a1a1a;
-  --text-primary: #ededed;
-  --text-secondary: #a0a0a0;
-  --text-muted: #666666;
-  --accent: #6366f1;
-  --accent-hover: #818cf8;
-  --border: #1f1f1f;
-  --success: #22c55e;
-  --warning: #f59e0b;
-  --danger: #ef4444;
-  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --max-width: 1200px;
-  --header-height: 56px;
+  /* ── Color Scheme & Engine ── */
+  color-scheme: dark;
+  accent-color: var(--accent-primary);
+
+  /* ── Surface Elevation Ladder (Obsidian System) ── */
+  --surface-canvas:       #070709;  /* Deepest viewport floor & player backing */
+  --surface-booth:        #0d0d11;  /* Primary background surface */
+  --surface-panel:        #131318;  /* Cards, rail modules, ticker strip */
+  --surface-raised:       #1a1a22;  /* Hover rows, inputs, chips, mod tabs */
+  --surface-float:        #22222c;  /* Popovers, tooltips, elevated dropdowns */
+
+  /* Legacy variable mappings */
+  --bg-primary:           var(--surface-canvas);
+  --bg-secondary:         var(--surface-booth);
+  --bg-tertiary:          var(--surface-panel);
+  --bg-card:              var(--surface-panel);
+  --bg-card-hover:        var(--surface-raised);
+
+  /* ── Glassmorphic Translucent Overlays ── */
+  --glass-header:         rgba(13, 13, 17, 0.82);
+  --glass-card:           rgba(19, 19, 24, 0.70);
+  --glass-modal:          rgba(10, 10, 14, 0.90);
+  --glass-player-control: rgba(7, 7, 9, 0.82);
+  --glass-blur-sm:        blur(8px);
+  --glass-blur-md:        blur(16px);
+  --glass-blur-lg:        blur(24px);
+
+  /* ── Hairline Borders & Dividers ── */
+  --border-subtle:        rgba(255, 255, 255, 0.06); /* Hairline card boundary */
+  --border-default:       #24242e;                   /* Standard panel borders */
+  --border-strong:        #343442;                   /* Inputs, buttons, screen frames */
+  --border-highlight:     rgba(232, 179, 75, 0.40);  /* Hovered or focused card rim */
+  --border-focus:         #e8b34b;                   /* Active focus-visible */
+  --border:               var(--border-default);
+
+  /* ── Accent & Chromatic Accents (The One-Light Rule: Cue Amber) ── */
+  --accent-primary:       #e8b34b;                   /* Cue-Mark Amber */
+  --accent-primary-hover: #f3c25e;                   /* Brightened amber */
+  --accent-dim:           rgba(232, 179, 75, 0.14);  /* Subtle selection/active tint */
+  --accent-dim-strong:    rgba(232, 179, 75, 0.28);  /* Active button hover wash */
+  --accent:               var(--accent-primary);
+  --accent-hover:         var(--accent-primary-hover);
+  --accent-glow:          rgba(232, 179, 75, 0.25);
+  --accent-gradient:      linear-gradient(135deg, #e8b34b 0%, #f59e0b 50%, #d97706 100%);
+
+  /* Secondary Accents */
+  --cyan-accent:          #38bdf8;
+  --cyan-glow:            rgba(56, 189, 248, 0.3);
+
+  /* Screen Emission / Spotlight Light */
+  --screen-light:         #f2f0ea;
+  --screen-bloom:         rgba(242, 240, 234, 0.16);
+
+  /* Functional Status Colors */
+  --signal-success:       #34d399;                   /* Emerald */
+  --signal-success-dim:   rgba(52, 211, 153, 0.15);
+  --signal-danger:        #f87171;                   /* Red */
+  --signal-danger-dim:    rgba(248, 113, 113, 0.15);
+  --signal-warning:       #fbbf24;                   /* Amber */
+  --signal-warning-dim:   rgba(251, 191, 36, 0.15);
+  --success:              var(--signal-success);
+  --danger:               var(--signal-danger);
+  --warning:              var(--signal-warning);
+
+  /* ── Typography & Ink Colors ── */
+  --text-primary:         #eeeae3;
+  --text-secondary:       #9e9ca6;
+  --text-muted:           #6c6b75;
+  --text-ghost:           #4c4b54;
+  --text-on-accent:       #070709;
+
+  /* ── Typography Scale & Stacks ── */
+  --font-display:         'Big Shoulders Display', 'Arial Narrow', sans-serif;
+  --font-body:            -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono:            ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  --font-family:          var(--font-body);
+
+  --max-width:            1520px;
+  --header-height:        56px;
+  --mobile-nav-height:    58px;
+
+  /* ── Radii ── */
+  --radius-xs:            4px;
+  --radius-sm:            6px;
+  --radius-md:            10px;
+  --radius-lg:            16px;
+  --radius-full:          9999px;
+
+  /* ── Elevation Shadows ── */
+  --shadow-screen-ambient:0 24px 64px rgba(0, 0, 0, 0.75), 0 0 70px rgba(232, 179, 75, 0.08);
+  --shadow-lamp-hover:    0 0 36px rgba(232, 179, 75, 0.32);
+  --shadow-card-hover:    0 12px 32px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(232, 179, 75, 0.35);
+  --shadow-sm:            0 2px 8px rgba(0, 0, 0, 0.5);
+  --shadow-md:            0 8px 24px rgba(0, 0, 0, 0.6);
+  --shadow-lg:            0 16px 40px -10px rgba(0, 0, 0, 0.8);
+
+  /* ── Transitions & Motion ── */
+  --ease-spring:          cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-smooth:          cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast:      0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth:    0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ── Safe Areas ── */
+  --safe-top:             env(safe-area-inset-top, 0px);
+  --safe-bottom:          env(safe-area-inset-bottom, 0px);
 }
