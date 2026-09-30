@@ -16,7 +16,7 @@ export default function App() {
   const showDebug = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('debug') === '1';
 
   return (
-    <BrowserRouter basename="/dev">
+    <BrowserRouter>
       <ToastProvider>
         <div className="app-shell">
           <Header />

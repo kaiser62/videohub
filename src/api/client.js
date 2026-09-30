@@ -1,7 +1,7 @@
 const KEY = 'zrABkxB4_7L2x_l73z__M_uJveGMnGr7NAD2JCVDkBk';
 
-// Primary API base is /dev/api with seamless fallback to /api
-let activeApiBase = '/dev/api';
+// Primary API base is /api
+let activeApiBase = '/api';
 
 export function getApiBase() {
   return activeApiBase;
